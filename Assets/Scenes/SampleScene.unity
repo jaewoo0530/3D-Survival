@@ -363,6 +363,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 501295248943222296, guid: d6a5e2c4aefa6804b8f7d2af9a9676b5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 614207752}
+    - targetCorrespondingSourceObject: {fileID: 501295248943222296, guid: d6a5e2c4aefa6804b8f7d2af9a9676b5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 614207753}
   m_SourcePrefab: {fileID: 100100000, guid: d6a5e2c4aefa6804b8f7d2af9a9676b5, type: 3}
 --- !u!1 &614207751 stripped
 GameObject:
@@ -390,6 +393,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &614207753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614207751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 956039c809b1d514f8d7b4b0b0db2140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  damageRate: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,8 +1109,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 183
   cameraContainer: {fileID: 1829692269}
-  minXLook: -85
-  maxXLook: 85
+  minXLook: -65
+  maxXLook: 65
   lookSensitivity: 0.1
   canLook: 1
 --- !u!114 &1311256472
@@ -1495,6 +1512,7 @@ GameObject:
   - component: {fileID: 1756256564}
   - component: {fileID: 1756256566}
   - component: {fileID: 1756256565}
+  - component: {fileID: 1756256567}
   m_Layer: 5
   m_Name: DamageIndicator
   m_TagString: Untagged
@@ -1559,6 +1577,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756256563}
   m_CullTransparentMesh: 1
+--- !u!114 &1756256567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756256563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe824da431980e48b26f0246117c092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 1756256565}
+  flashSpeed: 10
 --- !u!1 &1829692268
 GameObject:
   m_ObjectHideFlags: 0
