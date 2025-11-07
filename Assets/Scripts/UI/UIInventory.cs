@@ -220,7 +220,6 @@ public class UIInventory : MonoBehaviour
         {
             if (slots[selectedItemIndex].equipped)
             {
-                UnEquip(selectedItemIndex);
             }
 
             selectedItem.item = null;

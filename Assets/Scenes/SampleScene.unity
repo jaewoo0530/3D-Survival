@@ -2323,6 +2323,7 @@ GameObject:
   - component: {fileID: 800276139}
   - component: {fileID: 800276138}
   - component: {fileID: 800276137}
+  - component: {fileID: 800276140}
   m_Layer: 5
   m_Name: UIInventory
   m_TagString: Untagged
@@ -2414,6 +2415,30 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
+--- !u!114 &800276140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800276135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ecfdf29caf5c84298c9a1066012627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots: []
+  inventoryWindow: {fileID: 800276135}
+  slotPanel: {fileID: 1781755604}
+  dropPosition: {fileID: 0}
+  selectedItemName: {fileID: 285423561}
+  selectedItemDescription: {fileID: 1315354128}
+  selectedItemStatName: {fileID: 1538881820}
+  selectedItemStatValue: {fileID: 1578775191}
+  useButton: {fileID: 124459559}
+  equipButton: {fileID: 403945130}
+  unEquipButton: {fileID: 40890525}
+  dropButton: {fileID: 1690976312}
 --- !u!1001 &821393401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3541,7 +3566,19 @@ MonoBehaviour:
     m_ActionId: 8b22d647-ad91-489f-81ae-17a476b34a77
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1311256471}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnInventoryButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b48d9950-b52e-4851-abd6-ad8f7a99afbf
     m_ActionName: Player/Inventory[/Keyboard/tab]
   - m_PersistentCalls:
@@ -3606,6 +3643,7 @@ MonoBehaviour:
   controller: {fileID: 1311256471}
   condition: {fileID: 1311256473}
   itemData: {fileID: 0}
+  dropPosition: {fileID: 0}
 --- !u!114 &1311256473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4172,7 +4210,7 @@ GameObject:
   - component: {fileID: 1538881821}
   - component: {fileID: 1538881820}
   m_Layer: 5
-  m_Name: StartName
+  m_Name: StatName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
