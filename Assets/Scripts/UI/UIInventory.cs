@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 public class UIInventory : MonoBehaviour
 {
@@ -12,8 +13,6 @@ public class UIInventory : MonoBehaviour
     public Transform dropPosition;
 
     [Header("Selected Item")]
-    private ItemSlot selectedItem;
-    private int selectedItemIndex;
     public TextMeshProUGUI selectedItemName;
     public TextMeshProUGUI selectedItemDescription;
     public TextMeshProUGUI selectedItemStatName;
@@ -22,6 +21,9 @@ public class UIInventory : MonoBehaviour
     public GameObject equipButton;
     public GameObject unEquipButton;
     public GameObject dropButton;
+
+    private ItemData selectedItem;
+    private int selectedItemIndex;
 
     private int curEquipIndex;
 
@@ -167,39 +169,39 @@ public class UIInventory : MonoBehaviour
     {
         if (slots[index].item == null) return;
 
-        selectedItem = slots[index];
+        selectedItem = slots[index].item;
         selectedItemIndex = index;
 
-        selectedItemName.text = selectedItem.item.displayName;
-        selectedItemDescription.text = selectedItem.item.description;
+        selectedItemName.text = selectedItem.displayName;
+        selectedItemDescription.text = selectedItem.description;
 
         selectedItemStatName.text = string.Empty;
         selectedItemStatValue.text = string.Empty;
 
-        for (int i = 0; i < selectedItem.item.consumables.Length; i++)
+        for (int i = 0; i < selectedItem.consumables.Length; i++)
         {
-            selectedItemStatName.text += selectedItem.item.consumables[i].type.ToString() + "\n";
-            selectedItemStatValue.text += selectedItem.item.consumables[i].value.ToString() + "\n";
+            selectedItemStatName.text += selectedItem.consumables[i].type.ToString() + "\n";
+            selectedItemStatValue.text += selectedItem.consumables[i].value.ToString() + "\n";
         }
 
-        useButton.SetActive(selectedItem.item.type == ItemType.Consumable);
-        equipButton.SetActive(selectedItem.item.type == ItemType.Equipable && !slots[index].equipped);
-        unEquipButton.SetActive(selectedItem.item.type == ItemType.Equipable && slots[index].equipped);
+        useButton.SetActive(selectedItem.type == ItemType.Consumable);
+        equipButton.SetActive(selectedItem.type == ItemType.Equipable && !slots[index].equipped);
+        unEquipButton.SetActive(selectedItem.type == ItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(true);
     }
 
     public void OnUseButton()
     {
-        if (selectedItem.item.type == ItemType.Consumable)
+        if (selectedItem.type == ItemType.Consumable)
         {
-            for (int i = 0; i < selectedItem.item.consumables.Length; i++)
+            for (int i = 0; i < selectedItem.consumables.Length; i++)
             {
-                switch (selectedItem.item.consumables[i].type)
+                switch (selectedItem.consumables[i].type)
                 {
                     case ConsumableType.Health:
-                        condition.Heal(selectedItem.item.consumables[i].value); break;
+                        condition.Heal(selectedItem.consumables[i].value); break;
                     case ConsumableType.Hunger:
-                        condition.Eat(selectedItem.item.consumables[i].value); break;
+                        condition.Eat(selectedItem.consumables[i].value); break;
                 }
             }
             RemoveSelctedItem();
@@ -208,21 +210,22 @@ public class UIInventory : MonoBehaviour
 
     public void OnDropButton()
     {
-        ThrowItem(selectedItem.item);
+        ThrowItem(selectedItem);
         RemoveSelctedItem();
     }
 
     void RemoveSelctedItem()
     {
-        selectedItem.quantity--;
+        slots[selectedItemIndex].quantity--;
 
-        if (selectedItem.quantity <= 0)
+        if (slots[selectedItemIndex].quantity <= 0)
         {
             if (slots[selectedItemIndex].equipped)
             {
+                UnEquip(selectedItemIndex);
             }
 
-            selectedItem.item = null;
+            selectedItem = null;
             ClearSelectedItemWindow();
         }
 
@@ -232,5 +235,37 @@ public class UIInventory : MonoBehaviour
     public bool HasItem(ItemData item, int quantity)
     {
         return false;
+    }
+
+    public void OnEquipButton()
+    {
+        if (slots[curEquipIndex].equipped)
+        {
+            UnEquip(curEquipIndex);
+        }
+
+        slots[selectedItemIndex].equipped = true;
+        curEquipIndex = selectedItemIndex;
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
+        UpdateUI();
+
+        SelectItem(selectedItemIndex);
+    }
+
+    void UnEquip(int index)
+    {
+        slots[index].equipped = false;
+        CharacterManager.Instance.Player.equip.UnEquip();
+        UpdateUI();
+
+        if (selectedItemIndex == index)
+        {
+            SelectItem(selectedItemIndex);
+        }
+    }
+
+    public void OnUnEquipButton()
+    {
+        UnEquip(selectedItemIndex);
     }
 }
